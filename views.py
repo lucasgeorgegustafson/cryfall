@@ -11,4 +11,4 @@ def hello_world():
 def list_decks():
     decks = Deck.query.all()
     deck_list = [{'id': deck.id, 'name': deck.name} for deck in decks]
-    return {'decks': deck_list} 
+    return {'decks': deck_list}
