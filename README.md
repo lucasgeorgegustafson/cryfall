@@ -28,7 +28,9 @@ A web service for managing _Magic: The Gathering_ decks, created as an exercise 
 
 ## Prerequisites
 
-Python 3 with the `pip` and `venv` modules. The examples in this document will assume that the `python` command points to an installation of Python 3; replace the command names with `python3` if necessary.
+* Python 3
+  ...with the `pip` and `venv` modules. The examples in this document will assume that the `python` command points to an installation of Python 3; replace the command names with `python3` if necessary.
+* PostgreSQL 12
 
 ## Running Locally
 
