@@ -41,5 +41,5 @@ A web service for managing _Magic: The Gathering_ decks.
     ```
 8. Start the flask development server:
     ```sh
-    FLASK_APP=main.py flask run
+    ./run.sh
     ```
