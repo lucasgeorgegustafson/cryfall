@@ -9,3 +9,7 @@ run.sh
 
 # vim temp file
 *.swp
+
+# config file
+config/*
+!config/config.py.template
