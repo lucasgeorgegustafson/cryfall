@@ -5,11 +5,11 @@ venv
 __pycache__
 
 # run script
-run.sh
+run*.sh
 
 # vim temp file
 *.swp
 
-# config file
+# config files
 config/*
 !config/config.py.template
