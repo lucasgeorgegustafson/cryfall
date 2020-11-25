@@ -1,51 +1,45 @@
-# cryfall
+# cryfall API
 
-```
-                                 ...............
-                           ..........................
-                        ..................,@.............
-                      ..................@@@................
-                    .................,@@@@@..................
-                   ................*@@@@@@@,..................
-                 .................@@@@@@@@@@...................
-                 ...............@@@@@@@@@@@@@@..................
-                ...............@@@@@@@@@@@@@@@@/.................
-                .............,@@@@@@@@@@@@@@@@@@@................
-                .............@@@@@@@@@@@@@@@@@@.@@@..............
-                ............@@@@@@@@@@@@@@@@@@...&@@............
-                 ...........@@@@@@@@@@@@@@@@@&....@@,...........
-                  ..........@@@@@@@@@@@@@@@@@@...@@@...........
-                   ..........@@@@@@@@@@@@@@@@@@@@@@@..........
-                     .........@@@@@@@@@@@@@@@@@@@@&.........
-                       .........@@@@@@@@@@@@@@@@,.........
-                          ..........(@@@@@@@...........
-                              .....................
-```
-
-A web service for managing _Magic: The Gathering_ decks, created as an exercise in learning how to develop web applications using Python and Flask.
+A web service for managing _Magic: The Gathering_ decks.
 
 ## Prerequisites
 
 * Python 3
-  ...with the `pip` and `venv` modules. The examples in this document will assume that the `python` command points to an installation of Python 3; replace the command names with `python3` if necessary.
 * PostgreSQL 12
 
 ## Running Locally
 
-1. Create a virtual environment:
-    ```sh
-    python -m venv venv
+1. Create the cryfall database by running the following SQL:
+    ```sql
+    CREATE DATABASE cryfall;
     ```
-2. Activate the virtual environment:
+2. Create a virtual environment:
+    ```sh
+    python3 -m venv venv
+    ```
+3. Activate the virtual environment:
     ```sh
     . venv/bin/activate
     ```
-3. Install application dependencies:
+4. Install application dependencies:
     ```sh
-    pip install -r requirements.txt
+    pip install -r requirements-lock.txt
     ```
-    If psycopg2 doesn't build on Ubuntu, google it. You probably just need to `apt-get install` something.
-4. Start the flask development server:
+5. Create a local config file from the default:
+    ```sh
+    cp config/config.py.template config/config.py
+    ```
+    ...and edit it as necessary based on your local PostgreSQL setup.
+6. Run the migrations to create the database structure:
+    ```sh
+    FLASK_APP=main.py flask db upgrade
+    ```
+7. Create a local run script from the default:
+    ```sh
+    cp run.sh.template run.sh
+    chmod 775 run.sh
+    ```
+8. Start the flask development server:
     ```sh
     FLASK_APP=main.py flask run
     ```
