@@ -25,4 +25,4 @@
 A web application for managing _Magic: The Gathering_ decks, created as an exercise in learning how to develop web applications using Python, Flask, and Reactjs.
 
 * [API README](api/README.md)
-* [Browser Application README](api/README.md)
+* [Browser Application README](webapp/README.md)
