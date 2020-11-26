@@ -4,8 +4,12 @@ venv
 # python cache
 __pycache__
 
-# run script
-run.sh
+# flask script
+flask*.sh
 
 # vim temp file
 *.swp
+
+# config files
+config/*
+!config/config.py.template
