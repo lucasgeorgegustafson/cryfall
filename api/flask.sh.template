@@ -5,4 +5,4 @@
 FLASK_APP='main.py' \
 FLASK_ENV='development' \
 CRYFALL_CONFIG_FILE='config/config.py' \
-flask run
+flask "$@"
