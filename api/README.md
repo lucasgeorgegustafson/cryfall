@@ -33,13 +33,16 @@ A web service for managing _Magic: The Gathering_ decks.
 6. Create a script to set app's environment variables from the defaults:
     ```sh
     cp setenv.sh.template setenv.sh
-    chmod 775 setenv.sh
     ```
-7. Run the migrations to create the database structure:
+7. Source the setenv script
+    ```sh
+    source setenv.sh
+    ```
+8. Run the migrations to create the database structure:
     ```sh
     flask db upgrade
     ```
-8. Start the flask development server:
+9. Start the flask development server:
     ```sh
     flask run
     ```
