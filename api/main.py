@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from views import blueprint
 from database import db
+from cli import seed_db
 
 # initialize the flask app
 app = Flask(__name__)
@@ -18,3 +19,7 @@ migrate = Migrate(app, db)
 
 # load the views
 app.register_blueprint(blueprint)
+
+# register custom commands
+@app.cli.command("seed")
+def foobar(): seed_db()
