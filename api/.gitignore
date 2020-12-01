@@ -4,8 +4,8 @@ venv
 # python cache
 __pycache__
 
-# flask script
-flask*.sh
+# set env script
+setenv*.sh
 
 # vim temp file
 *.swp

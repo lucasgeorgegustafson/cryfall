@@ -1,8 +1,0 @@
-#!/usr/bin/env sh
-
-# The default environment values in this run script are sensible defaults
-# for local development. Copy this file to run.sh, and edit as necessary.
-FLASK_APP='main.py' \
-FLASK_ENV='development' \
-CRYFALL_CONFIG_FILE='config/config.py' \
-flask "$@"

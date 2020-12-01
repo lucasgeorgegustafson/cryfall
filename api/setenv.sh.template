@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+
+# The default environment variables in this script are sensible defaults
+# for local development. Copy this file to setenv.sh, and edit as necessary.
+export FLASK_APP='main.py' 
+export FLASK_ENV='development' 
+export CRYFALL_CONFIG_FILE='config/config.py' 
+

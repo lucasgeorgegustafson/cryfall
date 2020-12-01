@@ -30,16 +30,16 @@ A web service for managing _Magic: The Gathering_ decks.
     cp config/config.py.template config/config.py
     ```
     ...and edit it as necessary based on your local PostgreSQL setup.
-6. Create a local flask script from the default:
+6. Create a script to set app's environment variables from the defaults:
     ```sh
-    cp flask.sh.template flask.sh
-    chmod 775 flask.sh
+    cp setenv.sh.template setenv.sh
+    chmod 775 setenv.sh
     ```
 7. Run the migrations to create the database structure:
     ```sh
-    ./flask.sh db upgrade
+    flask db upgrade
     ```
 8. Start the flask development server:
     ```sh
-    ./flask.sh run
+    flask run
     ```
