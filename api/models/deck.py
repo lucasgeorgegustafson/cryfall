@@ -1,7 +1,8 @@
 from database import db
+from models.model import Base
 
-class Deck(db.Model):
+class Deck(Base):
     __tablename__ = 'decks'
-    id = db.Column(db.Integer, primary_key=True)
+
     name = db.Column(db.String(128))
     format = db.Column(db.String(128), nullable=False)
