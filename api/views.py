@@ -10,5 +10,10 @@ def hello_world():
 @blueprint.route("/decks", methods = ('GET',))
 def list_decks():
     decks = Deck.query.all()
-    deck_list = [{'id': deck.id, 'name': deck.name} for deck in decks]
+    deck_list = [] 
+    for deck in decks:
+        deck_dict = {'id': deck.id,
+                     'name': deck.name,
+                     'format': deck.format}
+        deck_list.append(deck_dict)   
     return {'decks': deck_list}
