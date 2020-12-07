@@ -23,3 +23,4 @@ app.register_blueprint(blueprint)
 # register custom commands
 @app.cli.command("seed")
 def foobar(): seed_db()
+
