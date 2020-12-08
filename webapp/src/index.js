@@ -1,11 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { CssBaseline } from '@material-ui/core';
+import { StylesProvider } from '@material-ui/core/styles';
+
+import App from './App';
+import './index.css';
 
 ReactDOM.render(
   <React.StrictMode>
+    <StylesProvider injectFirst>
+      <CssBaseline />
+    </StylesProvider>
     <App />
   </React.StrictMode>,
   document.getElementById('root')

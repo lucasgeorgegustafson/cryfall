@@ -1,15 +1,24 @@
-import logo from './logo.svg';
 import './App.css';
-import React from 'react';
 
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import {
+  Container,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText
+} from '@material-ui/core';
 
 class DecksList extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {
       error: null,
       isLoaded: false,
-      decks: []
+      decks: [],
     };
   }
 
@@ -32,7 +41,7 @@ class DecksList extends React.Component {
         }
       )
   }
-  
+
   render() {
     const { error, isLoaded, decks } = this.state;
 
@@ -42,41 +51,42 @@ class DecksList extends React.Component {
       return <div>Loading...</div>;
     } else {
       return (
-        <div className="DecksList">
+        <List component="ul">
           {
             decks.map(
               (deck) => {
-                return (<DecksListDeck deck={deck} />);
+                return (<DecksListDeck deck={deck} key={deck.id} />);
               }
             )
           }
-        </div>
+        </List>
       );
     }
-  } 
-} 
-
-class DecksListDeck extends React.Component {
-
-  render() {
-    return (<p>id: {this.props.deck.id}, name: {this.props.deck.name}</p>);
-
   }
 }
 
+class DecksListDeck extends React.Component {
+  proptypes = {
+    id: PropTypes.number,
+    deck: PropTypes.object,
+  };
 
-	  
+  render() {
+    return (
+      <ListItem>
+        {this.props.deck.name}
+      </ListItem>
+    );
+  }
+}
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          THIS IS MAGIC!!!!
-        </p>
-      </header>
-      <DecksList />
+      <Container maxWidth="sm">
+        <h1>Cryfall</h1>
+        <DecksList />
+      </Container>
     </div>
   );
 }
