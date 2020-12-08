@@ -84,7 +84,10 @@ function App() {
   return (
     <div className="App">
       <Container maxWidth="sm">
-        <h1>Cryfall</h1>
+        <h1>
+          <i className="ms ms-u ms-cost" id="header-logo-icon"></i>
+          <span className="title-text">Cryfall</span>
+        </h1>
         <DecksList />
       </Container>
     </div>
