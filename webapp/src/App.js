@@ -1,4 +1,5 @@
 import './App.css';
+import Api from './Api';
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -10,6 +11,7 @@ import {
   ListItemIcon,
   ListItemText,
   IconButton,
+  Fade,
 } from '@material-ui/core';
 
 import {
@@ -17,6 +19,9 @@ import {
 } from '@material-ui/icons';
 
 class DecksList extends React.Component {
+  proptypes = {
+    api: PropTypes.instanceOf(Api),
+  };
 
   constructor(props) {
     super(props);
@@ -28,8 +33,9 @@ class DecksList extends React.Component {
   }
 
   componentDidMount() {
-    fetch("/decks")
-      .then(res => res.json())
+    const api = this.props.api;
+
+    api.fetchDecks()
       .then(
         (result) => {
           this.setState({
@@ -60,7 +66,7 @@ class DecksList extends React.Component {
           {
             decks.map(
               (deck) => {
-                return (<DecksListDeck deck={deck} key={deck.id} />);
+                return (<DecksListDeck deck={deck} key={deck.id} api={this.props.api} />);
               }
             )
           }
@@ -72,16 +78,19 @@ class DecksList extends React.Component {
 
 class DecksListDeck extends React.Component {
   proptypes = {
-    id: PropTypes.number,
     deck: PropTypes.object,
+    api: PropTypes.instanceOf(Api),
   };
 
   render() {
     return (
-      <ListItem>
-        {this.props.deck.name}
-        <DeleteDeckButton deckId={this.props.id} />
-      </ListItem>
+      //TODO: make the fadeout work
+      <Fade in={true} timeout={1000} exit={true}>
+        <ListItem className="decks-list-deck">
+          {this.props.deck.name}
+          <DeleteDeckButton deckId={this.props.deck.id} api={this.props.api} />
+        </ListItem>
+      </Fade>
     );
   }
 }
@@ -89,18 +98,33 @@ class DecksListDeck extends React.Component {
 class DeleteDeckButton extends React.Component {
   proptypes = {
     deckId: PropTypes.number,
-  };
+    api: PropTypes.instanceOf(Api),
+  }; 
 
+  constructor(props) {
+    super(props);
+
+    // This binding is necessary to make `this` work in the callback
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick(e) {
+    const { api, deckId } = this.props;
+    //TODO: decouple this from its parent components
+    api.deleteDeck(deckId).then(() => e.target.closest(".decks-list-deck").remove());
+  }
+  
   render() {
     return (
-      <IconButton aria-label="delete">
-        <DeleteIcon />
-      </IconButton>
+        <IconButton aria-label="delete" onClick={this.handleClick}>
+          <DeleteIcon />
+        </IconButton>
     );
   }
 }
 
 function App() {
+  const api = new Api();
   return (
     <div className="App">
       <Container maxWidth="sm">
@@ -108,7 +132,7 @@ function App() {
           <i className="ms ms-u ms-cost" id="header-logo-icon"></i>
           <span className="title-text">Cryfall</span>
         </h1>
-        <DecksList />
+        <DecksList api={api} />
       </Container>
     </div>
   );
