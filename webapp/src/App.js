@@ -8,8 +8,13 @@ import {
   List,
   ListItem,
   ListItemIcon,
-  ListItemText
+  ListItemText,
+  IconButton,
 } from '@material-ui/core';
+
+import {
+  Delete as DeleteIcon,
+} from '@material-ui/icons';
 
 class DecksList extends React.Component {
 
@@ -75,7 +80,22 @@ class DecksListDeck extends React.Component {
     return (
       <ListItem>
         {this.props.deck.name}
+        <DeleteDeckButton deckId={this.props.id} />
       </ListItem>
+    );
+  }
+}
+
+class DeleteDeckButton extends React.Component {
+  proptypes = {
+    deckId: PropTypes.number,
+  };
+
+  render() {
+    return (
+      <IconButton aria-label="delete">
+        <DeleteIcon />
+      </IconButton>
     );
   }
 }
@@ -95,3 +115,5 @@ function App() {
 }
 
 export default App;
+
+
