@@ -4,15 +4,30 @@ html, body {
 
 #header-logo-icon {
   font-size: 1.5em;
+  color: #618CB4;
 }
 
 h1 {
-  font-weight: 800;
+  text-align: center;
 }
 
 h1 .title-text {
+  font-family: Forum;
+  font-size: 2.2em;
   position: relative;
-  left: -0.5em;
-  -webkit-text-stroke-width: 0.02em;
-  -webkit-text-stroke-color: #FAF0E0;
+  top: 0.22em;
+  left: -0.1em;
+
+  text-shadow: 1px 1px #0000001F, -1px -1px #FFFFFFCC;
+/*  -webkit-text-stroke-width: 0.02em;
+  -webkit-text-stroke-color: #FAF0E0;*/
+}
+
+.decks-list-deck {
+    background-color: #FAFAFA;
+    margin-bottom: 0.3em;
+    border-style: solid;
+    border-width: 0.1em;
+    border-color: #E5DCCD;
+    border-radius: 0.3em;
 }

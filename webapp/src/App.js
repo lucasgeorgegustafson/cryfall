@@ -8,14 +8,15 @@ import {
   Container,
   List,
   ListItem,
-  ListItemIcon,
   ListItemText,
+  ListItemSecondaryAction,
   IconButton,
-  Fade,
+  Collapse,
 } from '@material-ui/core';
 
 import {
-  Delete as DeleteIcon,
+  DeleteTwoTone as DeleteIcon,
+  EditTwoTone as EditIcon,
 } from '@material-ui/icons';
 
 class DecksList extends React.Component {
@@ -25,6 +26,7 @@ class DecksList extends React.Component {
 
   constructor(props) {
     super(props);
+
     this.state = {
       error: null,
       isLoaded: false,
@@ -53,6 +55,17 @@ class DecksList extends React.Component {
       )
   }
 
+  deleteDeck(id) {
+    const api = this.props.api;
+    const decks = this.state.decks;
+
+    return api.deleteDeck(id)
+      .then(() => {
+        const newDecks = decks.filter(e => e.id !== id);
+        this.setState({ decks: newDecks });
+      });
+  }
+
   render() {
     const { error, isLoaded, decks } = this.state;
 
@@ -62,14 +75,8 @@ class DecksList extends React.Component {
       return <div>Loading...</div>;
     } else {
       return (
-        <List component="ul">
-          {
-            decks.map(
-              (deck) => {
-                return (<DecksListDeck deck={deck} key={deck.id} api={this.props.api} />);
-              }
-            )
-          }
+        <List dense={false}>
+          {decks.map((deck) => { return <DecksListDeck key={deck.id} deck={deck} deleteDeck={this.deleteDeck.bind(this)} /> })}
         </List>
       );
     }
@@ -78,53 +85,63 @@ class DecksList extends React.Component {
 
 class DecksListDeck extends React.Component {
   proptypes = {
-    deck: PropTypes.object,
-    api: PropTypes.instanceOf(Api),
+    deck: PropTypes.object.isRequired,
+    deleteDeck: PropTypes.func.isRequired,
   };
 
+  constructor(props) {
+    super(props);
+
+    this.state = { isCollapsed: false };
+  }
+
+  handleDeleteButtonClick() {
+    this.setState({ isCollapsed: true });
+  }
+
   render() {
+    const { deck, deleteDeck } = this.props;
+    const { isCollapsed } = this.state;
+
     return (
-      //TODO: make the fadeout work
-      <Fade in={true} timeout={1000} exit={true}>
+      <Collapse
+        in={!isCollapsed}
+        timeout={500}
+        onExited={() => { deleteDeck(deck.id) }}
+      >
         <ListItem className="decks-list-deck">
-          {this.props.deck.name}
-          <DeleteDeckButton deckId={this.props.deck.id} api={this.props.api} />
+          <ListItemText primary={deck.name} />
+          <ListItemSecondaryAction>
+            <DeleteDeckButton
+              deckId={deck.id}
+              onClick={this.handleDeleteButtonClick.bind(this)}
+            />
+          </ListItemSecondaryAction>
         </ListItem>
-      </Fade>
+      </Collapse>
     );
   }
 }
 
 class DeleteDeckButton extends React.Component {
   proptypes = {
-    deckId: PropTypes.number,
-    api: PropTypes.instanceOf(Api),
-  }; 
+    onClick: PropTypes.func.isRequired,
+  };
 
-  constructor(props) {
-    super(props);
-
-    // This binding is necessary to make `this` work in the callback
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  handleClick(e) {
-    const { api, deckId } = this.props;
-    //TODO: decouple this from its parent components
-    api.deleteDeck(deckId).then(() => e.target.closest(".decks-list-deck").remove());
-  }
-  
   render() {
+    const onClick = this.props.onClick;
+
     return (
-        <IconButton aria-label="delete" onClick={this.handleClick}>
-          <DeleteIcon />
-        </IconButton>
+      <IconButton aria-label="delete" onClick={onClick}>
+        <DeleteIcon color='action' />
+      </IconButton>
     );
   }
 }
 
 function App() {
   const api = new Api();
+
   return (
     <div className="App">
       <Container maxWidth="sm">
