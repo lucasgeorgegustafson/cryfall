@@ -16,7 +16,6 @@ import {
 
 import {
   DeleteTwoTone as DeleteIcon,
-  EditTwoTone as EditIcon,
 } from '@material-ui/icons';
 
 class DecksList extends React.Component {
