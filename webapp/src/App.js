@@ -91,20 +91,20 @@ class DecksListDeck extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { isCollapsed: false };
+    this.state = { isDeleted: false };
   }
 
   handleDeleteButtonClick() {
-    this.setState({ isCollapsed: true });
+    this.setState({ isDeleted: true });
   }
 
   render() {
     const { deck, deleteDeck } = this.props;
-    const { isCollapsed } = this.state;
+    const { isDeleted } = this.state;
 
     return (
       <Collapse
-        in={!isCollapsed}
+        in={!isDeleted}
         timeout={500}
         onExited={() => { deleteDeck(deck.id) }}
       >
