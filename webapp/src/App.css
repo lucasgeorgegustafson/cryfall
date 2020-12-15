@@ -19,8 +19,6 @@ h1 .title-text {
   left: -0.1em;
 
   text-shadow: 1px 1px #0000001F, -1px -1px #FFFFFFCC;
-/*  -webkit-text-stroke-width: 0.02em;
-  -webkit-text-stroke-color: #FAF0E0;*/
 }
 
 .decks-list-deck {
