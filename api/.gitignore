@@ -13,3 +13,6 @@ setenv*.sh
 # config files
 config/*
 !config/config.py.template
+
+# JetBrains IDE
+.idea/
