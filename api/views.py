@@ -2,6 +2,7 @@ from models.deck import Deck
 from flask import Blueprint
 from database import db
 from flask import abort
+from models.card import Card
 
 blueprint = Blueprint('decks', __name__)
 
@@ -53,3 +54,17 @@ def delete_deck(id):
 @blueprint.app_errorhandler(404)
 def not_found(error):
     return {'error': 'resource not found'}
+
+@blueprint.route("/cards", methods = ('GET',))
+def list_cards():
+    cards = Card.query.limit(100).all()
+    card_list = [] 
+
+    for card in cards:
+        card_dict = {'scryfall_id': card.id,
+                     'name': card.name}
+        card_list.append(card_dict)   
+
+    return {'cards': card_list}
+
+    
