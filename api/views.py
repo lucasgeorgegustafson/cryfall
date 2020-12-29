@@ -1,8 +1,9 @@
-from models.deck import Deck
 from flask import Blueprint
 from database import db
 from flask import abort
 from models.card import Card
+from models.deck import Deck
+from models.deck_card import DeckCard
 
 blueprint = Blueprint('decks', __name__)
 
