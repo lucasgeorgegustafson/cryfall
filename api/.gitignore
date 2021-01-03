@@ -16,3 +16,6 @@ config/*
 
 # JetBrains IDE
 .idea/
+
+# oracle cards
+oracle-cards.json
