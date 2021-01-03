@@ -1,7 +1,8 @@
 import json
+from database import db
 from models.card import Card
 
-attributes = ['oracle_id',
+card_data = ['oracle_id',
 'name',
 'mana_cost',
 'cmc',
@@ -20,16 +21,17 @@ def parse_json(name):
         for card_dict in json.load(oracle_cards):
             if card_dict['name'] == name:
                 
-                return make_card(card_dict, attributes)
+                return card_dict
 
 
-def make_card(card_dict, attributes):
+def make_card(card_dict, card_data):
 
-    card = {}
+    card = Card() 
     
-    for attribute in attributes:
+    for attribute in card_data:
         if attribute in card_dict:
-            card[attribute] = card_dict[attribute]
+            card.attribute = card_dict[attribute]
+    card.scryfall_id = card_dict['oracle_id']
 
     return card
 

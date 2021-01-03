@@ -3,7 +3,7 @@ from database import db
 class Card(db.Model):
     __tablename__ = 'cards'
 
-    oracle_id = db.Column(db.String(128), primary_key=True) #changed scryfall_id to oracle_id for consistency
+    scryfall_id = db.Column(db.String(128), primary_key=True)
     name = db.Column(db.Text, nullable=False)
     mana_cost = db.Column(db.Text, nullable=False)
     cmc = db.Column(db.Float(), nullable=False)

@@ -4,6 +4,7 @@ from flask import abort
 from models.card import Card
 from models.deck import Deck
 from models.deck_card import DeckCard
+import json_parser
 
 blueprint = Blueprint('decks', __name__)
 
@@ -56,16 +57,23 @@ def delete_deck(id):
 def not_found(error):
     return {'error': 'resource not found'}
 
+
 @blueprint.route("/cards", methods = ('GET',))
 def list_cards():
     cards = Card.query.limit(100).all()
     card_list = [] 
 
     for card in cards:
-        card_dict = {'oracle_id': card.id, #changed to oracle_id for consistency
+        card_dict = {'scryfall_id': card.id,
                      'name': card.name}
         card_list.append(card_dict)   
 
     return {'cards': card_list}
 
-    
+
+@blueprint.route("/cards/<name>", methods = ('GET',))
+def add_card(name):
+    card_dict = json_parser.parse_json(name)
+    card = json_parser.make_card(card_dict, json_parser.card_data)
+
+    return {key: value for (key, value) in card_dict.items() if key in json_parser.card_data}
