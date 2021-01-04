@@ -74,6 +74,9 @@ def list_cards():
 @blueprint.route("/cards/<name>", methods = ('GET',))
 def add_card(name):
     card_dict = json_parser.parse_json(name)
-    card = json_parser.make_card(card_dict, json_parser.card_data)
+    card = json_parser.make_card(card_dict)
+
+    db.session.add(card)
+    db.session.commit()
 
     return {key: value for (key, value) in card_dict.items() if key in json_parser.card_data}
