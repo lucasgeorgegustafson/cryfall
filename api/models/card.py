@@ -3,7 +3,7 @@ from database import db
 class Card(db.Model):
     __tablename__ = 'cards'
 
-    scryfall_id = db.Column(db.String(128), primary_key=True)
+    oracle_id = db.Column(db.String(128), primary_key=True)
     name = db.Column(db.Text, nullable=False)
     mana_cost = db.Column(db.Text, nullable=False)
     cmc = db.Column(db.Float(), nullable=False)
@@ -19,7 +19,7 @@ class Card(db.Model):
     def from_dict(card_dict):
         card = Card()
 
-        card.scryfall_id = card_dict['oracle_id']
+        card.oracle_id = card_dict['oracle_id']
         card.name = card_dict['name']
         card.mana_cost = card_dict['mana_cost']
         card.cmc = card_dict['cmc']

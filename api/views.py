@@ -64,7 +64,7 @@ def list_cards():
     card_list = []
 
     for card in cards:
-        card_dict = {'scryfall_id': card.scryfall_id,
+        card_dict = {'oracle_id': card.oracle_id,
                      'name': card.name}
         card_list.append(card_dict)
 
