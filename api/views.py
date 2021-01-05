@@ -19,10 +19,7 @@ def list_decks():
     deck_list = []
 
     for deck in decks:
-        deck_dict = {'id': deck.id,
-                     'name': deck.name,
-                     'format': deck.format}
-        deck_list.append(deck_dict)
+        deck_list.append(deck_to_api_response(deck))
 
     return {'decks': deck_list}
 
@@ -34,9 +31,7 @@ def get_deck(id):
     if deck == None:
         return abort(404)
 
-    return {'id': deck.id,
-            'name': deck.name,
-            'format': deck.format}
+    return deck_to_api_response(deck)
 
 
 @blueprint.route("/decks/<int:id>", methods = ('DELETE',))
@@ -49,9 +44,7 @@ def delete_deck(id):
     db.session.delete(deck)
     db.session.commit()
 
-    return {'id': deck.id,
-            'name': deck.name,
-            'format': deck.format}
+    return deck_to_api_response(deck)
 
 @blueprint.app_errorhandler(404)
 def not_found(error):
@@ -72,11 +65,30 @@ def list_cards():
 
 
 @blueprint.route("/cards/<name>", methods = ('GET',))
-def add_card(name):
+def search_card(name):
     card_dict = json_parser.parse_json(name)
     card = Card.from_dict(card_dict)
 
     db.session.add(card)
     db.session.commit()
 
-    return {key: value for (key, value) in card_dict.items() if key in json_parser.card_data}
+    return card_to_api_response(card)
+
+
+def deck_to_api_response(deck):
+    return {'id': deck.id,
+            'name': deck.name,
+            'format': deck.format}
+
+def card_to_api_response(card):
+    return {'oracle_id': deck.oracle_id,
+            'name': deck.name,
+            'mana_cost': deck.mana_cost,
+            'cmc': deck.cmc,
+            'type_line': deck.type_line,
+            'oracle_text': deck.oracle_text,
+            'power': deck.power,
+            'toughness': deck.toughness,
+            'colors': deck.colors,
+            'color_identity': deck.color_identity,
+            'legalities': deck.legalities}

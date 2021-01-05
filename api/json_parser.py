@@ -2,18 +2,6 @@ import json
 from database import db
 from models.card import Card
 
-card_data = ['name',
-'mana_cost',
-'cmc',
-'type_line',
-'oracle_text',
-'power',
-'toughness',
-'colors',
-'color_identity',
-'legalities']
-
-
 def parse_json(name):
 
     with open('oracle-cards.json') as oracle_cards:
