@@ -4,7 +4,8 @@ from flask import abort
 from models.card import Card
 from models.deck import Deck
 from models.deck_card import DeckCard
-import json_parser
+from sqlalchemy.orm.exc import NoResultFound
+import card_import
 
 blueprint = Blueprint('decks', __name__)
 
@@ -57,20 +58,17 @@ def list_cards():
     card_list = []
 
     for card in cards:
-        card_dict = {'oracle_id': card.oracle_id,
-                     'name': card.name}
-        card_list.append(card_dict)
+        card_list.append(card_to_api_response(card))
 
     return {'cards': card_list}
 
 
 @blueprint.route("/cards/<name>", methods = ('GET',))
 def search_card(name):
-    card_dict = json_parser.parse_json(name)
-    card = Card.from_dict(card_dict)
-
-    db.session.add(card)
-    db.session.commit()
+    try:
+        card = db.session.query(Card).filter(Card.name == name).one()
+    except NoResultFound:
+        abort(404)
 
     return card_to_api_response(card)
 
@@ -81,14 +79,14 @@ def deck_to_api_response(deck):
             'format': deck.format}
 
 def card_to_api_response(card):
-    return {'oracle_id': deck.oracle_id,
-            'name': deck.name,
-            'mana_cost': deck.mana_cost,
-            'cmc': deck.cmc,
-            'type_line': deck.type_line,
-            'oracle_text': deck.oracle_text,
-            'power': deck.power,
-            'toughness': deck.toughness,
-            'colors': deck.colors,
-            'color_identity': deck.color_identity,
-            'legalities': deck.legalities}
+    return {'oracle_id': card.oracle_id,
+            'name': card.name,
+            'mana_cost': card.mana_cost,
+            'cmc': card.cmc,
+            'type_line': card.type_line,
+            'oracle_text': card.oracle_text,
+            'power': card.power,
+            'toughness': card.toughness,
+            'colors': card.colors,
+            'color_identity': card.color_identity,
+            'legalities': card.legalities}

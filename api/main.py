@@ -1,9 +1,11 @@
+import click
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from views import blueprint
 from database import db
 from cli import seed_db
+from card_import import import_cards
 
 # initialize the flask app
 app = Flask(__name__)
@@ -22,5 +24,14 @@ app.register_blueprint(blueprint)
 
 # register custom commands
 @app.cli.command("seed")
-def foobar(): seed_db()
+def command_seed_db(): seed_db()
+
+
+@app.cli.command("import-cards")
+@click.option(
+    "--path",
+    default="oracle-cards.json",
+    help="The path to the scryfall oracle cards json file."
+)
+def command_import_cards(path): import_cards(path)
 

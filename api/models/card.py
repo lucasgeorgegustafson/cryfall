@@ -5,10 +5,10 @@ class Card(db.Model):
 
     oracle_id = db.Column(db.String(128), primary_key=True)
     name = db.Column(db.Text, nullable=False)
-    mana_cost = db.Column(db.Text, nullable=False)
+    mana_cost = db.Column(db.Text, nullable=True)
     cmc = db.Column(db.Float(), nullable=False)
     type_line = db.Column(db.Text, nullable=False)
-    oracle_text = db.Column(db.Text, nullable=False)
+    oracle_text = db.Column(db.Text, nullable=True)
     power = db.Column(db.String(128), nullable=True)
     toughness = db.Column(db.String(128), nullable=True)
     colors = db.Column(db.JSON(), nullable=False, server_default='[]')
@@ -21,15 +21,18 @@ class Card(db.Model):
 
         card.oracle_id = card_dict['oracle_id']
         card.name = card_dict['name']
-        card.mana_cost = card_dict['mana_cost']
+        if 'mana_cost' in card_dict:
+            card.mana_cost = card_dict['mana_cost']
         card.cmc = card_dict['cmc']
         card.type_line = card_dict['type_line']
-        card.oracle_text = card_dict['oracle_text']
+        if 'oracle_text' in card_dict:
+            card.oracle_text = card_dict['oracle_text']
         if 'power' in card_dict:
             card.power = card_dict['power']
         if 'toughness' in card_dict:
             card.toughness = card_dict['toughness']
-        card.colors = card_dict['colors']
+        if 'colors' in card_dict:
+            card.colors = card_dict['colors']
         card.color_identity = card_dict['color_identity']
         card.legalities = card_dict['legalities']
 
