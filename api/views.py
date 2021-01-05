@@ -16,13 +16,13 @@ def hello_world():
 @blueprint.route("/decks", methods = ('GET',))
 def list_decks():
     decks = Deck.query.all()
-    deck_list = [] 
+    deck_list = []
 
     for deck in decks:
         deck_dict = {'id': deck.id,
                      'name': deck.name,
                      'format': deck.format}
-        deck_list.append(deck_dict)   
+        deck_list.append(deck_dict)
 
     return {'decks': deck_list}
 
@@ -33,19 +33,19 @@ def get_deck(id):
 
     if deck == None:
         return abort(404)
-    
+
     return {'id': deck.id,
             'name': deck.name,
             'format': deck.format}
 
-    
+
 @blueprint.route("/decks/<int:id>", methods = ('DELETE',))
 def delete_deck(id):
     deck = Deck.query.get(id)
 
     if deck == None:
-        return abort(404) 
-    
+        return abort(404)
+
     db.session.delete(deck)
     db.session.commit()
 
@@ -61,12 +61,12 @@ def not_found(error):
 @blueprint.route("/cards", methods = ('GET',))
 def list_cards():
     cards = Card.query.limit(100).all()
-    card_list = [] 
+    card_list = []
 
     for card in cards:
         card_dict = {'scryfall_id': card.scryfall_id,
                      'name': card.name}
-        card_list.append(card_dict)   
+        card_list.append(card_dict)
 
     return {'cards': card_list}
 
@@ -74,7 +74,7 @@ def list_cards():
 @blueprint.route("/cards/<name>", methods = ('GET',))
 def add_card(name):
     card_dict = json_parser.parse_json(name)
-    card = json_parser.make_card(card_dict)
+    card = Card.from_dict(card_dict)
 
     db.session.add(card)
     db.session.commit()
