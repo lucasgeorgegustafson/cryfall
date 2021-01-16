@@ -12,6 +12,11 @@ import {
   ListItemSecondaryAction,
   IconButton,
   Collapse,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
 } from '@material-ui/core';
 
 import {
@@ -109,7 +114,7 @@ class DecksListDeck extends React.Component {
         onExited={() => { deleteDeck(deck.id) }}
       >
         <ListItem className="decks-list-deck">
-          <ListItemText primary={deck.name} />
+          <ListItemText primary={deck.name} secondary={deck.format} />
           <ListItemSecondaryAction>
             <DeleteDeckButton
               deckId={deck.id}
@@ -136,6 +141,20 @@ class DeleteDeckButton extends React.Component {
       </IconButton>
     );
   }
+}
+
+class ConfirmationDialog extends React.Component {
+  state = {
+    open: false
+  };
+
+  handleClickOpen = () => {
+    this.setState({open: true});
+  };
+
+  handleClickClose = () => {
+    this.setState({open: false});
+  };
 }
 
 function App() {
