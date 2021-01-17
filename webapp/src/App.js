@@ -12,11 +12,6 @@ import {
   ListItemSecondaryAction,
   IconButton,
   Collapse,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
 } from '@material-ui/core';
 
 import {
@@ -100,6 +95,7 @@ class DecksListDeck extends React.Component {
   }
 
   handleDeleteButtonClick() {
+    window.confirm(`Delete ${this.props.deck.name}?`) &&
     this.setState({ isDeleted: true });
   }
 
@@ -141,20 +137,6 @@ class DeleteDeckButton extends React.Component {
       </IconButton>
     );
   }
-}
-
-class ConfirmationDialog extends React.Component {
-  state = {
-    open: false
-  };
-
-  handleClickOpen = () => {
-    this.setState({open: true});
-  };
-
-  handleClickClose = () => {
-    this.setState({open: false});
-  };
 }
 
 function App() {
