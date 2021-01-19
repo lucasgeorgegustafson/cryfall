@@ -67,6 +67,7 @@ class DecksList extends React.Component {
 
   render() {
     const { error, isLoaded, decks, deckCards } = this.state;
+    const api = this.props.api;
 
     if (error) {
       return <div>Error: {error.message}</div>;
@@ -75,7 +76,7 @@ class DecksList extends React.Component {
     } else {
       return (
         <List dense={false}>
-          {decks.map((deck) => { return <DecksListDeck key={deck.id} deck={deck} deleteDeck={this.deleteDeck.bind(this)} showDeckCards={this.showDeckCards.bind(this)} /> })}
+          {decks.map((deck) => { return <DecksListDeck key={deck.id} api={api} deck={deck} deleteDeck={this.deleteDeck.bind(this)} /> })}
         </List>
       );
     }
@@ -87,7 +88,6 @@ class DecksListDeck extends React.Component {
     api: PropTypes.instanceOf(Api),
     deck: PropTypes.object.isRequired,
     deleteDeck: PropTypes.func.isRequired,
-    showDeckCards: PropTypes.func.isRequired,
     deckCards: PropTypes.array
   };
 
@@ -102,13 +102,13 @@ class DecksListDeck extends React.Component {
   }
 
   handleShowCardsButtonClick() {
-    const { deck } = this.props;
+    const { deck, api } = this.props;
     const showCardsNewVal = !this.state.showCards;
-    const newState = { showDeckCards: showCardsNewVal };
+    const newState = { showCards: showCardsNewVal };
 
-    if showCardsNewVal && this.state.deckCards !== null {
+    if (showCardsNewVal && !this.state.deckCards) {
       api.fetchDeckCards(deck.id).then((result) => {
-        newState.deckCards = result.deckCards;
+        newState.deckCards = result.deck_cards;
         this.setState(newState);
       });
     } else {
@@ -143,14 +143,13 @@ class DecksListDeck extends React.Component {
               onClick={this.handleDeleteButtonClick.bind(this)}
             />
           </ListItemSecondaryAction>
+            {(showCards) ?
+              <List dense={false}>
+                {deckCards.map((deckCard) => { return <DeckCard key={deckCard.oracle_id} deckCard={deckCard} />})}
+              </List>
+              : undefined
+            }
         </ListItem>
-          {(showCards) ?
-            <List dense={false}>
-            {console.log(deckCards)}
-              {deckCards.map((deckCard) => { return <DeckCard key={deckCard.oracle_id} deckCard={deckCard} />})}
-            </List>
-            : undefined
-          }
       </Collapse>
     );
   }
