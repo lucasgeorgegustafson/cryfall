@@ -66,7 +66,7 @@ class DecksList extends React.Component {
   }
 
   render() {
-    const { error, isLoaded, decks } = this.state;
+    const { error, isLoaded, decks, deckCards } = this.state;
 
     if (error) {
       return <div>Error: {error.message}</div>;
@@ -75,7 +75,7 @@ class DecksList extends React.Component {
     } else {
       return (
         <List dense={false}>
-          {decks.map((deck) => { return <DecksListDeck key={deck.id} deck={deck} deleteDeck={this.deleteDeck.bind(this)} /> })}
+          {decks.map((deck) => { return <DecksListDeck key={deck.id} deck={deck} deleteDeck={this.deleteDeck.bind(this)} showDeckCards={this.showDeckCards.bind(this)} /> })}
         </List>
       );
     }
@@ -84,14 +84,29 @@ class DecksList extends React.Component {
 
 class DecksListDeck extends React.Component {
   proptypes = {
+    api: PropTypes.instanceOf(Api),
     deck: PropTypes.object.isRequired,
     deleteDeck: PropTypes.func.isRequired,
+    showDeckCards: PropTypes.func.isRequired,
+    deckCards: PropTypes.array
   };
 
   constructor(props) {
     super(props);
 
-    this.state = { isDeleted: false };
+    this.state = {
+      isDeleted: false,
+      showCards: false,
+      deckCards: this.props.deckCards,
+    };
+  }
+
+  handleShowCardsButtonClick() {
+    const { deck } = this.props;
+    const showCards = !this.state.showCards;
+
+    if (showCards) &&
+    this.setState({ showCards });
   }
 
   handleDeleteButtonClick() {
@@ -99,9 +114,22 @@ class DecksListDeck extends React.Component {
     this.setState({ isDeleted: true });
   }
 
+  showDeckCards(id) {
+    const { api, deck } = this.props;
+
+    return api.fetchDeckCards(deck.id)
+      .then(
+        (result) => {
+          this.setState({
+            deckCards: result.deckCards
+          });
+        }
+      )
+  }
+
   render() {
     const { deck, deleteDeck } = this.props;
-    const { isDeleted } = this.state;
+    const { isDeleted, showCards, deckCards } = this.state;
 
     return (
       <Collapse
@@ -112,12 +140,23 @@ class DecksListDeck extends React.Component {
         <ListItem className="decks-list-deck">
           <ListItemText primary={deck.name} secondary={deck.format} />
           <ListItemSecondaryAction>
+            <ShowCardsButton
+              deckId={deck.id}
+              onClick={this.handleShowCardsButtonClick.bind(this)}
+            />
             <DeleteDeckButton
               deckId={deck.id}
               onClick={this.handleDeleteButtonClick.bind(this)}
             />
           </ListItemSecondaryAction>
         </ListItem>
+          {(showCards) ?
+            <List dense={false}>
+            {console.log(deckCards)}
+              {deckCards.map((deckCard) => { return <DeckCard key={deckCard.oracle_id} deckCard={deckCard} />})}
+            </List>
+            : undefined
+          }
       </Collapse>
     );
   }
@@ -137,6 +176,39 @@ class DeleteDeckButton extends React.Component {
       </IconButton>
     );
   }
+}
+
+class ShowCardsButton extends React.Component {
+  proptypes = {
+    onClick: PropTypes.func.isRequired,
+  };
+
+  render() {
+    const onClick = this.props.onClick;
+
+    return (
+      <IconButton aria-label="show-cards" onClick={onClick}>
+        <i className="ms ms-counter-lore"></i>
+      </IconButton>
+    );
+  }
+}
+
+class DeckCard extends React.Component {
+  proptypes = {
+    deckCard: PropTypes.object.isRequired,
+  };
+
+  render() {
+    const { deckCard } = this.props;
+
+    return (
+      <ListItem>
+        <ListItemText primary={deckCard.name} />
+      </ListItem>
+    )
+  }
+
 }
 
 function App() {
