@@ -103,28 +103,22 @@ class DecksListDeck extends React.Component {
 
   handleShowCardsButtonClick() {
     const { deck } = this.props;
-    const showCards = !this.state.showCards;
+    const showCardsNewVal = !this.state.showCards;
+    const newState = { showDeckCards: showCardsNewVal };
 
-    if (showCards) &&
-    this.setState({ showCards });
+    if showCardsNewVal && this.state.deckCards !== null {
+      api.fetchDeckCards(deck.id).then((result) => {
+        newState.deckCards = result.deckCards;
+        this.setState(newState);
+      });
+    } else {
+      this.setState(newState);
+    }
   }
 
   handleDeleteButtonClick() {
     window.confirm(`Delete ${this.props.deck.name}?`) &&
     this.setState({ isDeleted: true });
-  }
-
-  showDeckCards(id) {
-    const { api, deck } = this.props;
-
-    return api.fetchDeckCards(deck.id)
-      .then(
-        (result) => {
-          this.setState({
-            deckCards: result.deckCards
-          });
-        }
-      )
   }
 
   render() {
