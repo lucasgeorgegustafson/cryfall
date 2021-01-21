@@ -12,6 +12,9 @@ import {
   ListItemSecondaryAction,
   IconButton,
   Collapse,
+  Modal,
+  Backdrop,
+  Fade,
 } from '@material-ui/core';
 
 import {
@@ -66,7 +69,7 @@ class DecksList extends React.Component {
   }
 
   render() {
-    const { error, isLoaded, decks, deckCards } = this.state;
+    const { error, isLoaded, decks } = this.state;
     const api = this.props.api;
 
     if (error) {
@@ -133,6 +136,12 @@ class DecksListDeck extends React.Component {
       >
         <ListItem className="decks-list-deck">
           <ListItemText primary={deck.name} secondary={deck.format} />
+            {(showCards) ?
+                <List dense={false}>
+                  {deckCards.map((deckCard) => { return <DeckCard key={deckCard.card.oracle_id} deckCard={deckCard} />})}
+                </List>
+                : undefined
+            }
           <ListItemSecondaryAction>
             <ShowCardsButton
               deckId={deck.id}
@@ -143,12 +152,6 @@ class DecksListDeck extends React.Component {
               onClick={this.handleDeleteButtonClick.bind(this)}
             />
           </ListItemSecondaryAction>
-            {(showCards) ?
-              <List dense={false}>
-                {deckCards.map((deckCard) => { return <DeckCard key={deckCard.oracle_id} deckCard={deckCard} />})}
-              </List>
-              : undefined
-            }
         </ListItem>
       </Collapse>
     );
@@ -197,7 +200,7 @@ class DeckCard extends React.Component {
 
     return (
       <ListItem>
-        <ListItemText primary={deckCard.name} />
+        <ListItemText primary={deckCard.card.name} />
       </ListItem>
     )
   }
