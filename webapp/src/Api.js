@@ -4,9 +4,13 @@ class Api {
   }
 
   deleteDeck(deckId) {
-      return fetch('/decks/' + deckId, {
-          method: 'DELETE',
-      }).then(response => response.json());
+    return fetch('/decks/' + deckId, {
+      method: 'DELETE',
+    }).then(response => response.json());
+  }
+
+  fetchDeckCards(deckId) {
+    return fetch('/decks/' + deckId + '/cards').then(response => response.json());
   }
 }
 

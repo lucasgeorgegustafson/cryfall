@@ -47,6 +47,22 @@ def delete_deck(id):
 
     return deck_to_api_response(deck)
 
+
+@blueprint.route("/decks/<int:deck_id>/cards", methods = ('GET',))
+def list_deck_cards(deck_id):
+    deck = Deck.query.get(deck_id)
+
+    if deck == None:
+        return abort(404)
+
+    deck_cards = []
+
+    for deck_card in deck.cards:
+        deck_cards.append(deck_card_to_api_response(deck_card))
+
+    return {'deck_cards': deck_cards}
+
+#TODO: add endpoint for put request
 @blueprint.app_errorhandler(404)
 def not_found(error):
     return {'error': 'resource not found'}
@@ -73,6 +89,8 @@ def search_card(name):
     return card_to_api_response(card)
 
 
+
+
 def deck_to_api_response(deck):
     return {'id': deck.id,
             'name': deck.name,
@@ -90,3 +108,11 @@ def card_to_api_response(card):
             'colors': card.colors,
             'color_identity': card.color_identity,
             'legalities': card.legalities}
+
+def deck_card_to_api_response(deck_card):
+    return {'qty_main': deck_card.qty_main,
+            'qty_sideboard': deck_card.qty_sideboard,
+            'is_commander': deck_card.is_commander,
+            'is_companion': deck_card.is_companion,
+            'card': card_to_api_response(deck_card.card)}
+

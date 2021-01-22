@@ -13,4 +13,5 @@ class DeckCard(db.Model):
     qty_sideboard = db.Column(db.Integer, nullable=False, server_default='0')
     is_commander = db.Column(db.Boolean, nullable=False, server_default='false')
     is_companion = db.Column(db.Boolean, nullable=False, server_default='false')
-
+    card = db.relationship('Card', back_populates = 'decks')
+    deck = db.relationship('Deck', back_populates = 'cards')

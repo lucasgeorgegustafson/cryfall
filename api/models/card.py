@@ -14,6 +14,7 @@ class Card(db.Model):
     colors = db.Column(db.JSON(), nullable=False, server_default='[]')
     color_identity = db.Column(db.JSON(), nullable=False, server_default='[]')
     legalities = db.Column(db.JSON(), nullable=False)
+    decks = db.relationship('DeckCard', back_populates = 'card')
 
     @staticmethod
     def from_dict(card_dict):
