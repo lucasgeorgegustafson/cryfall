@@ -1,14 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import './App.css';
 import Api from './Api';
 
 import DecksList from './components/DecksList.js';
-import DecksListDeck from './components/DecksListDeck.js';
-import DeleteDeckButton from './components/DeleteDeckButton.js';
-import ShowCardsButton from './components/ShowCardsButton.js';
-import DeckCard from './components/DeckCard.js';
 
 import {
   Container,

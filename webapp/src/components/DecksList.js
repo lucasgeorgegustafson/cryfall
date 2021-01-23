@@ -25,7 +25,7 @@ export default function DecksList(props) {
           setError();
         }
       )
-  }, [])
+  }, [props.api])
 
   const deleteDeck = (id) => {
 
