@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useReducer, useEffect } from 'react';
 
 import DecksListDeck from './DecksListDeck.js';
 
@@ -7,43 +7,41 @@ import {
 } from '@material-ui/core';
 
 export default function DecksList(props) {
-
-  const [error, setError] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [decks, setDecks] = useState([]);
+  const [state, setState] = useReducer(
+    (state, newState) => ({...state, ...newState}),
+    {error: null, isLoaded: false, decks: []}
+  );
 
   useEffect( () => {
     props.api.fetchDecks()
       .then(
         (result) => {
-          setIsLoaded(true);
-          setDecks(result.decks);
+          setState({isLoaded: true, decks: result.decks})
         },
         //TODO: handle errors
         (error) => {
-          setIsLoaded(true);
-          setError();
+          setState({isLoaded: true});
         }
       )
-  }, [props.api])
+  }, [props.api]);
 
   const deleteDeck = (id) => {
 
     return props.api.deleteDeck(id)
       .then(() => {
-        const newDecks = decks.filter(e => e.id !== id);
-        setDecks(newDecks);
+        const newDecks = state.decks.filter(e => e.id !== id);
+        setState({decks: newDecks});
       });
   }
 
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  } else if (!isLoaded) {
+  if (state.error) {
+    return <div>Error: {state.error.message}</div>;
+  } else if (!state.isLoaded) {
     return <div>Loading...</div>;
   } else {
     return (
       <List dense={false}>
-        {decks.map((deck) => { return <DecksListDeck key={deck.id} api={props.api} deck={deck} deleteDeck={deleteDeck} /> })}
+        {state.decks.map((deck) => { return <DecksListDeck key={deck.id} api={props.api} deck={deck} deleteDeck={deleteDeck} /> })}
       </List>
     );
   }
