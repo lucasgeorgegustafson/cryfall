@@ -12,6 +12,7 @@ import {
   ListItemText,
   ListItemSecondaryAction,
   Collapse,
+  Dialog,
 } from '@material-ui/core';
 
 export default function DecksListDeck(props) {
@@ -38,6 +39,10 @@ export default function DecksListDeck(props) {
       setIsDeleted(true);
   }
 
+  const handleCloseDialog = () => {
+    setShowCards(false);
+  };
+
   return (
     <Collapse
       in={!isDeleted}
@@ -47,9 +52,13 @@ export default function DecksListDeck(props) {
         <ListItem className="decks-list-deck">
           <ListItemText primary={props.deck.name} secondary={props.deck.format} />
           {(showCards) ?
-            <List dense={false}>
-              {deckCards.map((deckCard) => { return <DeckCard key={deckCard.card.oracle_id} deckCard={deckCard} />})}
-            </List>
+            <div>
+              <Dialog open={showCards} onClose={handleCloseDialog}>
+                <List dense={false}>
+                  {deckCards.map((deckCard) => { return <DeckCard key={deckCard.card.oracle_id} deckCard={deckCard} />})}
+                </List>
+              </Dialog>
+            </div>
             : undefined
           }
           <ListItemSecondaryAction>
