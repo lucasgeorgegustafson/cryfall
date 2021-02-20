@@ -7,7 +7,8 @@ import {
 
 function costToManaIcons(cost) {
     return [...cost.matchAll(/{(.*?)}/g)].map(match => {
-        const cost = match[1].toLowerCase().replace('/', '');        return <i className={'ms ms-' + cost + ' ms-cost'}></i>
+        const cost = match[1].toLowerCase().replace('/', '');
+        return <i className={'ms ms-' + cost + ' ms-cost'}></i>
     });
 }
 
