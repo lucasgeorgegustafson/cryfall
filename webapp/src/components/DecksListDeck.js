@@ -54,8 +54,10 @@ export default function DecksListDeck(props) {
           {(showCards) ?
             <div>
               <Dialog open={showCards} onClose={handleCloseDialog}>
-                <List dense={false}>
-                  {deckCards.map((deckCard) => { return <DeckCard key={deckCard.card.oracle_id} deckCard={deckCard} />})}
+                <List dense={true}>
+                  {deckCards.map((deckCard) => {
+                    return <DeckCard key={deckCard.card.oracle_id} deckCard={deckCard} />
+                  })}
                 </List>
               </Dialog>
             </div>
