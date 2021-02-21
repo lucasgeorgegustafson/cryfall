@@ -1,15 +1,13 @@
-import React from 'react';
+import React from 'react'
 
 import {
-  IconButton,
-} from '@material-ui/core';
+  IconButton
+} from '@material-ui/core'
 
-export default function ShowCardsButton(props) {
-
+export default function ShowCardsButton (props) {
   return (
-    <IconButton aria-label="show-cards" onClick={props.onClick}>
-      <i className="ms ms-counter-lore"></i>
+    <IconButton aria-label='show-cards' onClick={props.onClick}>
+      <i className='ms ms-counter-lore' />
     </IconButton>
-  );
+  )
 }
-

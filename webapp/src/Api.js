@@ -1,17 +1,17 @@
 class Api {
-  fetchDecks() {
-    return fetch('/decks').then(response => response.json());
+  fetchDecks () {
+    return fetch('/decks').then(response => response.json())
   }
 
-  deleteDeck(deckId) {
+  deleteDeck (deckId) {
     return fetch('/decks/' + deckId, {
-      method: 'DELETE',
-    }).then(response => response.json());
+      method: 'DELETE'
+    }).then(response => response.json())
   }
 
-  fetchDeckCards(deckId) {
-    return fetch('/decks/' + deckId + '/cards').then(response => response.json());
+  fetchDeckCards (deckId) {
+    return fetch('/decks/' + deckId + '/cards').then(response => response.json())
   }
 }
 
-export default Api;
+export default Api

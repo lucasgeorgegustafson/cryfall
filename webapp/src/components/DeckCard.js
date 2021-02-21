@@ -1,19 +1,18 @@
-import React from 'react';
+import React from 'react'
 
 import {
   ListItem,
-  ListItemText,
-} from '@material-ui/core';
+  ListItemText
+} from '@material-ui/core'
 
-function costToManaIcons(cost) {
-    return [...cost.matchAll(/{(.*?)}/g)].map(match => {
-        const cost = match[1].toLowerCase().replace('/', '');
-        return <i className={'ms ms-' + cost + ' ms-cost'}></i>
-    });
+function costToManaIcons (cost) {
+  return [...cost.matchAll(/{(.*?)}/g)].map((match, idx) => {
+    const cost = match[1].toLowerCase().replace('/', '')
+    return <i key={idx} className={'ms ms-' + cost + ' ms-cost'} />
+  })
 }
 
-export default function DeckCard(props) {
-
+export default function DeckCard (props) {
   return (
     <ListItem>
       <ListItemText primary={props.deckCard.qty_main} />
@@ -22,4 +21,3 @@ export default function DeckCard(props) {
     </ListItem>
   )
 }
-
