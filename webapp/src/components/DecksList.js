@@ -32,7 +32,7 @@ const DecksList = (props) => {
   }
 
   if (state.error) {
-    return <Alert severity="error">{state.error}</Alert>
+    return <Alert severity='error'>{state.error}</Alert>
   } else if (!state.isLoaded) {
     return <div>Loading...</div>
   } else {
