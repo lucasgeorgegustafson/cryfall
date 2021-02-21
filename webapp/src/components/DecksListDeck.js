@@ -6,10 +6,9 @@ import PropTypes from 'prop-types'
 import Api from '../Api.js'
 import DeleteDeckButton from './DeleteDeckButton.js'
 import ShowCardsButton from './ShowCardsButton.js'
-import DeckCard from './DeckCard.js'
+import DeckCardsList from './DeckCardsList.js'
 
 import {
-  List,
   ListItem,
   ListItemText,
   ListItemSecondaryAction,
@@ -47,11 +46,7 @@ const DecksListDeck = (props) => {
     showCardsDialog = (
       <div>
         <Dialog open={showCards} onClose={handleCloseDialog}>
-          <List dense>
-            {deckCards.map((deckCard) => {
-              return <DeckCard key={deckCard.card.oracle_id} deckCard={deckCard} />
-            })}
-          </List>
+          <DeckCardsList deckCards={deckCards} />
         </Dialog>
       </div>
     )
