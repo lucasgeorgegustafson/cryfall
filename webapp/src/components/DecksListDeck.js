@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
-
 import '../App.css'
 
+import React, { useState } from 'react'
+import PropTypes from 'prop-types'
+
+import Api from '../Api.js'
 import DeleteDeckButton from './DeleteDeckButton.js'
 import ShowCardsButton from './ShowCardsButton.js'
 import DeckCard from './DeckCard.js'
@@ -15,7 +17,7 @@ import {
   Dialog
 } from '@material-ui/core'
 
-export default function DecksListDeck (props) {
+const DecksListDeck = (props) => {
   const [isDeleted, setIsDeleted] = useState(false)
   const [showCards, setShowCards] = useState(false)
   const [deckCards, setDeckCards] = useState(props.deckCards)
@@ -78,3 +80,12 @@ export default function DecksListDeck (props) {
     </Collapse>
   )
 }
+
+DecksListDeck.propTypes = {
+  deck: PropTypes.object.isRequired,
+  api: PropTypes.instanceOf(Api).isRequired,
+  deleteDeck: PropTypes.func.isRequired,
+  deckCards: PropTypes.arrayOf(PropTypes.object)
+}
+
+export default DecksListDeck

@@ -1,12 +1,10 @@
 import React, { useReducer, useEffect } from 'react'
+import { List } from '@material-ui/core'
+import { Alert } from '@material-ui/lab'
 
 import DecksListDeck from './DecksListDeck.js'
 
-import {
-  List
-} from '@material-ui/core'
-
-export default function DecksList (props) {
+const DecksList = (props) => {
   const [state, setState] = useReducer(
     (state, newState) => ({ ...state, ...newState }),
     { error: null, isLoaded: false, decks: [] }
@@ -18,9 +16,9 @@ export default function DecksList (props) {
         (result) => {
           setState({ isLoaded: true, decks: result.decks })
         },
-        // TODO: handle errors
         (error) => {
-          setState({ isLoaded: true })
+          console.error(error)
+          setState({ isLoaded: true, error: 'Unable to fetch decks' })
         }
       )
   }, [props.api])
@@ -34,7 +32,7 @@ export default function DecksList (props) {
   }
 
   if (state.error) {
-    return <div>Error: {state.error.message}</div>
+    return <Alert severity="error">{state.error}</Alert>
   } else if (!state.isLoaded) {
     return <div>Loading...</div>
   } else {
@@ -45,3 +43,9 @@ export default function DecksList (props) {
     )
   }
 }
+
+DecksList.propTypes = {
+
+}
+
+export default DecksList

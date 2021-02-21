@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import {
   ListItem,
@@ -12,7 +13,7 @@ function costToManaIcons (cost) {
   })
 }
 
-export default function DeckCard (props) {
+const DeckCard = (props) => {
   return (
     <ListItem>
       <ListItemText primary={props.deckCard.qty_main} />
@@ -21,3 +22,9 @@ export default function DeckCard (props) {
     </ListItem>
   )
 }
+
+DeckCard.propTypes = {
+  deckCard: PropTypes.object.isRequired
+}
+
+export default DeckCard
