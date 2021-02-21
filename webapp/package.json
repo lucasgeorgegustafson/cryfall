@@ -15,14 +15,20 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "eslint src/**.js src/**/*.js && react-scripts test",
+    "test": "npx eslint src/**.js src/**/*.js && react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint src/**.js src/**/*.js"
+    "lint": "npx eslint src/**.js src/**/*.js",
+    "format": "npx standard --fix"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
       "react-app/jest"
+    ]
+  },
+  "standard": {
+    "env": [
+      "jest"
     ]
   },
   "browserslist": {
