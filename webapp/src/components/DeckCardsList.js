@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import { List, makeStyles } from '@material-ui/core'
 
 import DeckCardsListSection from './DeckCardsListSection.js'
@@ -20,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 const DeckCardsList = (props) => {
   const classes = useStyles()
 
-  const categorized = categorize(props.deckCards)
+  const categorized = props.deckCards.getCategorized()
   const listItems = []
 
   if (categorized.creature.length > 0) {
@@ -64,30 +63,6 @@ const DeckCardsList = (props) => {
 
 DeckCardsList.propTypes = {
   deckCards: PropTypes.instanceOf(DeckCards).isRequired
-}
-
-function categorize (deckCards) {
-  const result = {
-    creature: [],
-    planeswalker: [],
-    instant: [],
-    sorcery: [],
-    enchantment: [],
-    artifact: [],
-    land: [],
-    sideboard: []
-  }
-
-  deckCards.forEach((deckCard) => {
-    if (deckCard.qtySideboard > 0) {
-      result.sideboard.push(deckCard)
-    }
-    if (deckCard.qtyMain > 0) {
-      result[deckCard.card.getPrimaryType()].push(deckCard)
-    }
-  })
-
-  return result
 }
 
 export default DeckCardsList

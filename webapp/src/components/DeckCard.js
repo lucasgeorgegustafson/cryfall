@@ -1,10 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
-import {
-  ListItem,
-  ListItemText
-} from '@material-ui/core'
+import { ListItem, ListItemText } from '@material-ui/core'
 
 import DeckCardModel from '../models/DeckCard.js'
 
