@@ -14,9 +14,12 @@ function costToManaIcons (cost) {
 }
 
 const DeckCard = (props) => {
+  const qtyField = props.isSideboard ? 'qty_sideboard' : 'qty_main'
+
   return (
     <ListItem>
-      <ListItemText primary={props.deckCard.qty_main} />
+      <ListItemText primary={props.deckCard[qtyField]} />
+      {props.isSideboard && props.deckCard.is_companion ? <i className='ms ms-ability-companion ms-mechanic' /> : null}
       <ListItemText primary={props.deckCard.card.name} />
       {props.deckCard.card.mana_cost !== null && <ListItemText primary={costToManaIcons(props.deckCard.card.mana_cost)} />}
     </ListItem>
@@ -24,7 +27,8 @@ const DeckCard = (props) => {
 }
 
 DeckCard.propTypes = {
-  deckCard: PropTypes.object.isRequired
+  deckCard: PropTypes.object.isRequired,
+  isSideboard: PropTypes.bool
 }
 
 export default DeckCard
