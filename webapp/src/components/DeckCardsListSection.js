@@ -13,6 +13,9 @@ const useStyles = makeStyles((theme) => ({
   ul: {
     backgroundColor: 'inherit',
     padding: 0
+  },
+  icon: {
+    marginRight: '0.5em'
   }
 }))
 
@@ -28,7 +31,7 @@ const DeckCardsListSection = (props) => {
     <li key={props.sectionName} className={classes.root}>
       <ul className={classes.ul}>
         <ListSubheader key={`subheader-${props.sectionName}`}>
-          {props.sectionName !== 'sideboard' ? <i className={`ms ms-${props.sectionName}`} /> : null}
+          {props.sectionName !== 'sideboard' ? <i className={`ms ms-fw ms-${props.sectionName} ${classes.icon}`} /> : null}
           {capitalizeString(props.sectionName)} ({count})
         </ListSubheader>
         {renderedDeckCards}

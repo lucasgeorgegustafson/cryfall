@@ -1,23 +1,37 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { ListItem, ListItemText } from '@material-ui/core'
+import { ListItem, ListItemText, makeStyles } from '@material-ui/core'
 
+import ManaCost from './ManaCost.js'
 import DeckCardModel from '../models/DeckCard.js'
 
-function costToManaIcons (cost) {
-  return [...cost.matchAll(/{(.*?)}/g)].map((match, idx) => {
-    const cost = match[1].toLowerCase().replace('/', '')
-    return <i key={idx} className={'ms ms-' + cost + ' ms-cost'} />
-  })
-}
+const useStyles = makeStyles((theme) => ({
+  listItem: {
+    paddingTop: '1px',
+    paddingBottom: '1px'
+  },
+  cardName: {
+    textAlign: 'left',
+    marginTop: '0px',
+    marginBottom: '0px'
+  },
+  qty: {
+    width: '2em'
+  },
+  cost: {
+    fontSize: '95%'
+  }
+}))
 
 const DeckCard = (props) => {
+  const classes = useStyles()
+
   return (
-    <ListItem>
-      <ListItemText primary={props.deckCard.getQty(props.isSideboard)} />
+    <ListItem className={classes.listItem}>
+      <span className={classes.qty}>{props.deckCard.getQty(props.isSideboard)}</span>
       {props.isSideboard && props.deckCard.isCompanion ? <i className='ms ms-ability-companion ms-mechanic' /> : null}
-      <ListItemText primary={props.deckCard.card.name} />
-      {props.deckCard.card.manaCost !== null && <ListItemText primary={costToManaIcons(props.deckCard.card.manaCost)} />}
+      <ListItemText primary={props.deckCard.card.name} className={classes.cardName} />
+      {props.deckCard.card.manaCost !== null && <div className={classes.cost}><ManaCost cost={props.deckCard.card.manaCost} /></div>}
     </ListItem>
   )
 }
