@@ -19,7 +19,10 @@ const useStyles = makeStyles((theme) => ({
     width: '2em'
   },
   cost: {
-    fontSize: '95%'
+    fontSize: '90%'
+  },
+  icon: {
+    marginRight: '0.3em'
   }
 }))
 
@@ -29,7 +32,7 @@ const DeckCard = (props) => {
   return (
     <ListItem className={classes.listItem}>
       <span className={classes.qty}>{props.deckCard.getQty(props.isSideboard)}</span>
-      {props.isSideboard && props.deckCard.isCompanion ? <i className='ms ms-ability-companion ms-mechanic' /> : null}
+      {props.isSideboard && props.deckCard.isCompanion ? <i className={`ms ms-ability-companion ms-mechanic ${classes.icon}`} /> : null}
       <ListItemText primary={props.deckCard.card.name} className={classes.cardName} />
       {props.deckCard.card.manaCost !== null && <div className={classes.cost}><ManaCost cost={props.deckCard.card.manaCost} /></div>}
     </ListItem>
