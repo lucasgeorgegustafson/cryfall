@@ -7,6 +7,7 @@ import Api from '../Api.js'
 import DeleteDeckButton from './DeleteDeckButton.js'
 import ShowCardsButton from './ShowCardsButton.js'
 import DeckCardsList from './DeckCardsList.js'
+import DeckCards from '../collections/DeckCards.js'
 
 import {
   ListItem,
@@ -23,8 +24,8 @@ const DecksListDeck = (props) => {
 
   const handleShowCardsButtonClick = () => {
     if (!showCards && !deckCards) {
-      props.api.fetchDeckCards(props.deck.id).then((result) => {
-        setDeckCards(result.deck_cards)
+      props.api.fetchDeckCards(props.deck.id).then((deckCards) => {
+        setDeckCards(deckCards)
         setShowCards(!showCards)
       })
     } else {
@@ -80,7 +81,7 @@ DecksListDeck.propTypes = {
   deck: PropTypes.object.isRequired,
   api: PropTypes.instanceOf(Api).isRequired,
   deleteDeck: PropTypes.func.isRequired,
-  deckCards: PropTypes.arrayOf(PropTypes.object)
+  deckCards: PropTypes.instanceOf(DeckCards)
 }
 
 export default DecksListDeck

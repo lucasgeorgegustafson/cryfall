@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { List, makeStyles } from '@material-ui/core'
 
 import DeckCardsListSection from './DeckCardsListSection.js'
+import DeckCards from '../collections/DeckCards.js'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,35 +24,35 @@ const DeckCardsList = (props) => {
   const listItems = []
 
   if (categorized.creature.length > 0) {
-    listItems.push(<DeckCardsListSection sectionName='creature' deckCards={categorized.creature} />)
+    listItems.push(<DeckCardsListSection key='section-creature' sectionName='creature' deckCards={categorized.creature} />)
   }
 
   if (categorized.planeswalker.length > 0) {
-    listItems.push(<DeckCardsListSection sectionName='planeswalker' deckCards={categorized.planeswalker} />)
+    listItems.push(<DeckCardsListSection key='section-planeswalker' sectionName='planeswalker' deckCards={categorized.planeswalker} />)
   }
 
   if (categorized.instant.length > 0) {
-    listItems.push(<DeckCardsListSection sectionName='instant' deckCards={categorized.instant} />)
+    listItems.push(<DeckCardsListSection key='section-instant' sectionName='instant' deckCards={categorized.instant} />)
   }
 
   if (categorized.sorcery.length > 0) {
-    listItems.push(<DeckCardsListSection sectionName='sorcery' deckCards={categorized.sorcery} />)
+    listItems.push(<DeckCardsListSection key='section-sorcery' sectionName='sorcery' deckCards={categorized.sorcery} />)
   }
 
   if (categorized.enchantment.length > 0) {
-    listItems.push(<DeckCardsListSection sectionName='enchantment' deckCards={categorized.enchantment} />)
+    listItems.push(<DeckCardsListSection key='section-enchantment' sectionName='enchantment' deckCards={categorized.enchantment} />)
   }
 
   if (categorized.artifact.length > 0) {
-    listItems.push(<DeckCardsListSection sectionName='artifact' deckCards={categorized.artifact} />)
+    listItems.push(<DeckCardsListSection key='section-artifact' sectionName='artifact' deckCards={categorized.artifact} />)
   }
 
   if (categorized.land.length > 0) {
-    listItems.push(<DeckCardsListSection sectionName='land' deckCards={categorized.land} />)
+    listItems.push(<DeckCardsListSection key='section-land' sectionName='land' deckCards={categorized.land} />)
   }
 
   if (categorized.sideboard.length > 0) {
-    listItems.push(<DeckCardsListSection sectionName='sideboard' deckCards={categorized.sideboard} isSideboard />)
+    listItems.push(<DeckCardsListSection key='section-sideboard' sectionName='sideboard' deckCards={categorized.sideboard} isSideboard />)
   }
 
   return (
@@ -62,7 +63,7 @@ const DeckCardsList = (props) => {
 }
 
 DeckCardsList.propTypes = {
-  deckCards: PropTypes.arrayOf(PropTypes.object).isRequired
+  deckCards: PropTypes.instanceOf(DeckCards).isRequired
 }
 
 function categorize (deckCards) {
@@ -78,44 +79,15 @@ function categorize (deckCards) {
   }
 
   deckCards.forEach((deckCard) => {
-    if (deckCard.qty_sideboard > 0) {
+    if (deckCard.qtySideboard > 0) {
       result.sideboard.push(deckCard)
     }
-    if (deckCard.qty_main > 0) {
-      result[getPrimaryType(deckCard.card)].push(deckCard)
+    if (deckCard.qtyMain > 0) {
+      result[deckCard.card.getPrimaryType()].push(deckCard)
     }
   })
 
   return result
-}
-
-function getFrontType (card) {
-  return card.type_line.split('//', 1)[0]
-}
-
-function getPrimaryType (card) {
-  const superAndType = getFrontType(card).split(' — ', 1)[0].toLowerCase()
-  let primaryType = ''
-
-  if (superAndType.includes('land')) {
-    primaryType = 'land'
-  } else if (superAndType.includes('planeswalker')) {
-    primaryType = 'planeswalker'
-  } else if (superAndType.includes('creature')) {
-    primaryType = 'creature'
-  } else if (superAndType.includes('artifact')) {
-    primaryType = 'artifact'
-  } else if (superAndType.includes('enchantment')) {
-    primaryType = 'enchantment'
-  } else if (superAndType.includes('instant')) {
-    primaryType = 'instant'
-  } else if (superAndType.includes('sorcery')) {
-    primaryType = 'sorcery'
-  } else {
-    console.error('Unable to parse type line: ' + card.type_line)
-  }
-
-  return primaryType
 }
 
 export default DeckCardsList
