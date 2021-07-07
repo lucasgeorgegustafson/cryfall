@@ -47,7 +47,7 @@ const DecksListDeck = (props) => {
     showCardsDialog = (
       <div>
         <Dialog open={showCards} onClose={handleCloseDialog}>
-          <DeckCardsList deckCards={deckCards} />
+          {deckCards.length > 0 ? <DeckCardsList deckCards={deckCards} /> : <h1>This deck has no cards!</h1>}
         </Dialog>
       </div>
     )
