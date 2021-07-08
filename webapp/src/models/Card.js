@@ -4,6 +4,7 @@ export default class Card {
     this.manaCost = props.mana_cost
     this.oracleId = props.oracle_id
     this.typeLine = props.type_line
+    this.imageURI = props.image_uri
   }
 
   getFrontType () {

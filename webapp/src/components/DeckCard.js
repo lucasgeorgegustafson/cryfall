@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { ListItem, ListItemText, makeStyles } from '@material-ui/core'
+import { ListItem, ListItemText, makeStyles, Dialog } from '@material-ui/core'
 
 import ManaCost from './ManaCost.js'
 import DeckCardModel from '../models/DeckCard.js'
@@ -27,13 +27,37 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const DeckCard = (props) => {
+  const [showCardImage, setShowCardImage] = useState(false)
   const classes = useStyles()
+
+  const handleShowCardImageClick = () => {
+    if (!showCardImage) {
+      setShowCardImage(!showCardImage)
+    }
+  }
+
+  const handleCloseCardImageDialog = () => {
+    setShowCardImage(false)
+  }
+
+  let cardImageDialog = null
+
+  if (showCardImage) {
+    cardImageDialog = (
+      <div>
+        <Dialog open={showCardImage} onClose={handleCloseCardImageDialog}>
+          {props.deckCard.card.imageURI.length > 0 ? <h1>I am a picture</h1> : <h1>This card has no picture!</h1>}
+        </Dialog>
+      </div>
+    )
+  }
 
   return (
     <ListItem className={classes.listItem}>
+      {cardImageDialog}
       <span className={classes.qty}>{props.deckCard.getQty(props.isSideboard)}</span>
       {props.isSideboard && props.deckCard.isCompanion ? <i className={`ms ms-ability-companion ms-mechanic ${classes.icon}`} /> : null}
-      <ListItemText primary={props.deckCard.card.name} className={classes.cardName} />
+      <ListItemText primary={props.deckCard.card.name} className={classes.cardName} onClick={handleShowCardImageClick} />
       {props.deckCard.card.manaCost !== null && <div className={classes.cost}><ManaCost cost={props.deckCard.card.manaCost} /></div>}
     </ListItem>
   )
