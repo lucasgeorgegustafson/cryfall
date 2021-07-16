@@ -1,3 +1,5 @@
+import '../App.css'
+
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { ListItem, ListItemText, makeStyles, Dialog } from '@material-ui/core'
@@ -46,7 +48,9 @@ const DeckCard = (props) => {
     cardImageDialog = (
       <div>
         <Dialog open={showCardImage} onClose={handleCloseCardImageDialog}>
-          {props.deckCard.card.imageURI.length > 0 ? <h1>I am a picture</h1> : <h1>This card has no picture!</h1>}
+          {props.deckCard.card.imageURI.length > 0
+            ? <img id='card-pic' src={props.deckCard.card.imageURI} />
+            : <h1>This card has no picture!</h1>}
         </Dialog>
       </div>
     )
