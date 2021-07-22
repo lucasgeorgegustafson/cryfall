@@ -25,6 +25,12 @@ const useStyles = makeStyles((theme) => ({
   },
   icon: {
     marginRight: '0.3em'
+  },
+  dialogImage: {
+    borderRadius: '20px'
+  },
+  dialogPaper: {
+    backgroundColor: 'transparent'
   }
 }))
 
@@ -47,9 +53,9 @@ const DeckCard = (props) => {
   if (showCardImage) {
     cardImageDialog = (
       <div>
-        <Dialog open={showCardImage} onClose={handleCloseCardImageDialog}>
+        <Dialog open={showCardImage} onClose={handleCloseCardImageDialog} classes={{ paper: classes.dialogPaper }}>
           {props.deckCard.card.imageURI.length > 0
-            ? <img id='card-pic' src={props.deckCard.card.imageURI} />
+            ? <img id='card-pic' className={classes.dialogImage} src={props.deckCard.card.imageURI} />
             : <h1>This card has no picture!</h1>}
         </Dialog>
       </div>
