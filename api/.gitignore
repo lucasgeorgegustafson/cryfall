@@ -20,6 +20,7 @@ config/*
 # oracle cards
 oracle-cards.json
 
-# image count tool
+# card count tools
+count_cards.py
 count_images.py
 
