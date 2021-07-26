@@ -15,6 +15,7 @@ class Card(db.Model):
     color_identity = db.Column(db.JSON(), nullable=False, server_default='[]')
     legalities = db.Column(db.JSON(), nullable=False)
     image_uri = db.Column(db.Text, nullable=True)
+    opp_image_uri = db.Column(db.Text, nullable=True)
     decks = db.relationship('DeckCard', back_populates = 'card')
 
     @staticmethod
@@ -39,5 +40,8 @@ class Card(db.Model):
         card.legalities = card_dict['legalities']
         if 'image_uris' in card_dict and 'normal' in card_dict['image_uris']:
             card.image_uri = card_dict['image_uris']['normal']
+        elif card_dict['layout'] == 'modal_dfc':
+            card.image_uri = card_dict['card_faces'][0]['image_uris']['normal']
+            card.opp_image_uri = card_dict['card_faces'][1]['image_uris']['normal']
 
         return card
