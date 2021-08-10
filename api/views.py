@@ -108,7 +108,8 @@ def card_to_api_response(card):
             'colors': card.colors,
             'color_identity': card.color_identity,
             'legalities': card.legalities,
-            'image_uri': card.image_uri}
+            'image_uri': card.image_uri,
+            'opp_image_uri': card.opp_image_uri}
 
 def deck_card_to_api_response(deck_card):
     return {'qty_main': deck_card.qty_main,
