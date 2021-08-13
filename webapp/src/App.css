@@ -32,4 +32,5 @@ h1 .title-text {
 
 #card-pic {
     max-width: 400px;
+    cursor: pointer;
 }

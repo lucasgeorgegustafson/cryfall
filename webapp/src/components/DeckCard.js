@@ -15,7 +15,8 @@ const useStyles = makeStyles((theme) => ({
   cardName: {
     textAlign: 'left',
     marginTop: '0px',
-    marginBottom: '0px'
+    marginBottom: '0px',
+    cursor: 'pointer'
   },
   qty: {
     width: '2em'
@@ -36,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
 
 const DeckCard = (props) => {
   const [showCardImage, setShowCardImage] = useState(false)
+  const [flipCardImage, setFlipCardImage] = useState(false)
   const classes = useStyles()
 
   const handleShowCardImageClick = () => {
@@ -48,14 +50,30 @@ const DeckCard = (props) => {
     setShowCardImage(false)
   }
 
+  const handleFlipCardImageClick = () => {
+    if (!flipCardImage && props.deckCard.card.oppImageURI) {
+      setFlipCardImage(true)
+    } else if (flipCardImage) {
+      setFlipCardImage(false)
+    }
+  }
+
+  const handleImageSource = () => {
+    if (!flipCardImage) {
+      return props.deckCard.card.imageURI
+    } else {
+      return props.deckCard.card.oppImageURI
+    }
+  }
+
   let cardImageDialog = null
 
   if (showCardImage) {
     cardImageDialog = (
       <div>
         <Dialog open={showCardImage} onClose={handleCloseCardImageDialog} classes={{ paper: classes.dialogPaper }}>
-          {props.deckCard.card.imageURI.length > 0
-            ? <img id='card-pic' className={classes.dialogImage} src={props.deckCard.card.imageURI} />
+          {props.deckCard.card.imageURI.length !== null
+            ? <img id='card-pic' className={classes.dialogImage} src={handleImageSource()} onClick={handleFlipCardImageClick} />
             : <h1>This card has no picture!</h1>}
         </Dialog>
       </div>
